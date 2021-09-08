@@ -1,12 +1,14 @@
-// DO YOUR MAGIC
+//Imports
 const express = require('express')
+const md = require('./cars-middleware')
+const Car = require('./cars-model') //Object W/ Methods
 
-const Car = require('./cars-model')
+
+//Miniature Instance Of Express Server
 const router = express.Router()
 
-const md = require('./cars-middleware')
 
-
+//Endpoints
 router.get('/', async (req, res, next) => {
     try {
         const data = await Car.getAll()
@@ -28,10 +30,13 @@ router.post('/',
     md.checkVinNumberUnique,
     async (req, res, next) => {
         try {
-            const data = await Car.create(req.body)
-            res.status(201).json(data)
+            const car = await Car.create(req.body)
+            res.json(car)
         } catch (err) {
             next(err)
         }
 })
+
+
+//Exports; Exposing
 module.exports = router;

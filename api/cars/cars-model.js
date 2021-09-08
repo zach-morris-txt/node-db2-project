@@ -1,4 +1,8 @@
+//Imports; DATABASE Connection
 const db = require('../../data/db-config')
+
+
+//Helper-Functions
 const getAll = () => {
   // DO YOUR MAGIC
   return db('cars')
@@ -7,19 +11,25 @@ const getAll = () => {
 const getById = (id) => {
   // DO YOUR MAGIC
   return db('cars')
-  .where('id', id)
-  .first()
+    .where('id', id)
+    .first()
 }
 
-const create = async (car) => {
+const getByVin = (vin) => {
+  return db('cars').where('vin', vin).first()
+}
+
+const create = (car) => {
   // DO YOUR MAGIC
-  const [id] = await db('cars')
-  .insert(car)
-  return getById(id)
+  return db('cars').insert(car)
+    .then(([id]) => getById(id))
 }
 
+
+//Exports; Exposing
 module.exports = {
   getAll,
   getById,
+  getByVin,
   create,
 }
